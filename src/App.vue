@@ -7,9 +7,9 @@
     <div class="game-window">
       <div class="score">
         <h2 class="heading2">Player score: {{ player.score }}</h2>
-        <h2 class="heading2">Computer score: {{ cpu.score }}</h2>
+        <h2 class="heading2">Computer score: {{ computer.score }}</h2>
       </div>
-      <SelectedWeapons :cpu="cpu" :player="player" />
+      <SelectedWeapons :cpu="computer" :player="player" />
       <Winner :winner="winner" />
       <div class="options">
         <div class="option" v-for="(option, index) in options" :key="option">
@@ -54,7 +54,7 @@ export default defineComponent({
       score: 0,
       selected: { weapon: "", img: "" },
     },
-    cpu: {
+    computer: {
       score: 0,
       selected: { weapon: "", img: "" },
     },
@@ -83,26 +83,26 @@ export default defineComponent({
   methods: {
     chooseWeapons(index: number) {
       this.player.selected = this.options[index];
-      this.cpu.selected = this.options[Math.floor(Math.random() * 5)];
+      this.computer.selected = this.options[Math.floor(Math.random() * 5)];
       this.setWinner();
     },
     setWinner() {
       const playerWeapon = this.player.selected.weapon;
-      const cpuWeapon = this.cpu.selected.weapon;
+      const computerWeapon = this.computer.selected.weapon;
 
-      if (playerWeapon === cpuWeapon) {
+      if (playerWeapon === computerWeapon) {
         this.winner = "Tie";
       } else if (
         this.winningOptions.find(
           ({ winner, looser }) =>
-            winner === playerWeapon && looser === cpuWeapon
+            winner === playerWeapon && looser === computerWeapon
         )
       ) {
         this.winner = "Player";
         this.player.score++;
       } else {
         this.winner = "Computer";
-        this.cpu.score++;
+        this.computer.score++;
       }
     },
     toggleModal() {
@@ -114,7 +114,7 @@ export default defineComponent({
         selected: { weapon: "", img: "" },
       };
 
-      this.cpu = {
+      this.computer = {
         score: 0,
         selected: { weapon: "", img: "" },
       };
